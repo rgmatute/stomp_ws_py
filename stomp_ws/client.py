@@ -36,23 +36,23 @@ class Client:
 
         total_ms = 0
         while self.opened is False:
-            time.sleep(.25)
+            time.sleep(0.25)
             total_ms += 250
             if 0 < timeout < total_ms:
                 raise TimeoutError(f"Connection to {self.url} timed out")
 
-    def _on_open(self):
+    def _on_open(self,x):
         self.opened = True
 
-    def _on_close(self):
+    def _on_close(self, x, y, z):
         self.connected = False
         logging.debug("Whoops! Lost connection to " + self.ws.url)
         self._clean_up()
 
-    def _on_error(self, error):
+    def _on_error(self, error,ee):
         logging.debug(error)
 
-    def _on_message(self, message):
+    def _on_message(self, x, message):
         logging.debug("\n<<< " + str(message))
         frame = Frame.unmarshall_single(message)
         _results = []
